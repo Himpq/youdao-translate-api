@@ -147,4 +147,4 @@ def translate(content):
     return decrypted.decode('utf-8')
 
 if __name__ == "__main__":
-  request("World just a large loop.")  # Example usage
+  translate("World just a large loop.")  # Example usage
