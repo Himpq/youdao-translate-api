@@ -29,7 +29,6 @@ def getSign(constSign):
     mysticTime = str(int(time.time() * 1000))
     sign       = f"client=fanyideskweb&mysticTime={mysticTime}&product=webfanyi&key={constSign}"
 
-    # print("==>get sign:", sign, hashlib.md5(sign.encode('utf-8')).hexdigest(),'\n')
 
     return hashlib.md5(sign.encode('utf-8')).hexdigest()
 
@@ -75,10 +74,12 @@ def getKeys():
             "cookie": "OUTFOX_SEARCH_USER_ID=1514108552@111.58.53.137; _uetsid=faadcbd0598411f0a082c1e8b007b95c; _uetvid=faadec80598411f0905aa19b0415a81d; OUTFOX_SEARCH_USER_ID_NCOO=1314097494.1249926; DICT_DOCTRANS_SESSION_ID=YWI5ZGFiZjMtYWZjYS00NmRmLThlMzYtYTM3NDU5OTBmNTFk"
         }
     )
-    # print("==>get keys:", req.json(), '\n')
+
     return req.json()['data']
 
-def translate(content):
+def translate(content, cookie): # cookie is needed now
+    """请求翻译，请提供cookie"""
+    
     keyid, constSign = getProductKeys()
     keys = getKeys()
     aeskey, aesiv, secretKey = keys['aesKey'], keys['aesIv'], keys['secretKey']
@@ -98,7 +99,7 @@ def translate(content):
         "sec-ch-ua": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
         "sec-ch-ua-mobile": "?0",
         "sec-ch-ua-platform": "\"Windows\"",
-        #"cookie": "OUTFOX_SEARCH_USER_ID=1514108552@111.58.53.137; _uetsid=faadcbd0598411f0a082c1e8b007b95c; _uetvid=faadec80598411f0905aa19b0415a81d; OUTFOX_SEARCH_USER_ID_NCOO=1314097494.1249926; DICT_DOCTRANS_SESSION_ID=YWI5ZGFiZjMtYWZjYS00NmRmLThlMzYtYTM3NDU5OTBmNTFk"
+        "cookie": cookie
     }
 
     data = {
@@ -148,5 +149,6 @@ def translate(content):
     return decrypted.decode('utf-8')
 
 if __name__ == "__main__":
-  print(translate("World is just a large loop."))  # Example usage
+     #使用伪造的COOKIE进行尝试访问。
+     print(translate("World is just a large loop.", "OUTFOX_SEARCH_USER_ID=1145141919@114.51.41.91; _uetsid=faadcbd1145141810a082c1e8b007b95c; _uetvid=faadcbd1145141810a082c1e8b007b95c; OUTFOX_SEARCH_USER_ID_NCOO=1145141919.8109926; DICT_DOCTRANS_SESSION_ID=MTE0NTE0MTkxOTgxMGFiY2RlZmc="))  # Example usage
   
