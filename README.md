@@ -4,7 +4,10 @@
 # 使用方法
 ```python
 from youdao_translate import *
-print(translate("World is a loop."))
+
+COOKIE = ... # Provide a cookie here (can be fake)
+
+print(translate("World is a loop.", COOKIE))
 ```
 预期输出：
 ```
